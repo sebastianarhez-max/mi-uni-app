@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mi Uni · Tu semana universitaria, en orden</title>
+<meta name="description" content="App gratis para Android: horario, tareas, exámenes, notas y faltas en un solo lugar. Sin cuentas y sin publicidad.">
+<meta property="og:title" content="Mi Uni · Tu semana universitaria, en orden">
+<meta property="og:description" content="Horario, tareas, notas y faltas en un solo lugar. Gratis para Android.">
+<meta property="og:image" content="https://sebastianarhez-max.github.io/mi-uni-app/img/vista-previa.png">
+<meta property="og:url" content="https://sebastianarhez-max.github.io/mi-uni-app/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#5B5BD6">
+<link rel="icon" href="img/icono.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #5B5BD6; --accent-2: #4646B8; --soft: #EEEEFC;
+    --bg: #F6F6FB; --card: #FFFFFF; --text: #15151F; --muted: #5E5E70; --line: #E3E3EE;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --accent: #8B8BF0; --accent-2: #A3A3F5; --soft: #23233D; --bg: #0E0E16; --card: #181824; --text: #F2F2F8; --muted: #A4A4B8; --line: #2A2A3A; }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.55 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+
+  /* Portada */
+  .hero { padding: 40px 0 32px; display: grid; gap: 36px; align-items: center; }
+  .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 20px; }
+  .brand img { width: 44px; height: 44px; }
+  h1 { font-size: clamp(36px, 8vw, 56px); line-height: 1.05; letter-spacing: -0.03em; margin: 22px 0 14px; font-weight: 800; }
+  h1 span { color: var(--accent); }
+  .lead { font-size: 18px; color: var(--muted); margin: 0 0 26px; max-width: 30em; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 16px 24px; border-radius: 16px; font-weight: 700; font-size: 17px; text-decoration: none; transition: transform .15s, background .15s; }
+  .btn:active { transform: scale(.97); }
+  .btn.main { background: var(--accent); color: #fff; box-shadow: 0 10px 28px -10px var(--accent); }
+  .btn.main:hover { background: var(--accent-2); }
+  @media (prefers-color-scheme: dark) { .btn.main { color: #0E0E16; } }
+  .btn.ghost { background: var(--card); border: 1.5px solid var(--line); }
+  .btn.ghost:hover { border-color: var(--accent); }
+  .note { font-size: 13.5px; color: var(--muted); margin-top: 14px; }
+  .phones { display: flex; justify-content: center; gap: 16px; }
+  .phone { width: 46%; max-width: 250px; border-radius: 30px; border: 6px solid #1d1d28; box-shadow: 0 24px 50px -20px rgba(20,20,60,.45); overflow: hidden; background: #1d1d28; }
+  .phone img { display: block; width: 100%; height: auto; }
+  .phone.b { margin-top: 44px; }
+  @media (min-width: 860px) { .hero { grid-template-columns: 1.05fr 1fr; padding: 64px 0 56px; } }
+
+  section { padding: 44px 0; }
+  h2 { font-size: clamp(26px, 5vw, 34px); letter-spacing: -0.02em; margin: 0 0 8px; font-weight: 800; }
+  .sub { color: var(--muted); margin: 0 0 26px; }
+
+  /* Funciones */
+  .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  @media (min-width: 700px) { .grid { grid-template-columns: repeat(3, 1fr); gap: 14px; } }
+  .feat { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 16px; }
+  @media (min-width: 700px) { .feat { padding: 20px; } }
+  .feat .ic { font-size: 26px; line-height: 1; }
+  .feat h3 { font-size: 16.5px; margin: 12px 0 4px; }
+  .feat p { margin: 0; color: var(--muted); font-size: 14.5px; }
+
+  /* Galería */
+  .gallery { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 20px 18px; margin: 0 -20px; scrollbar-width: thin; }
+  .gallery figure { margin: 0; flex: 0 0 200px; scroll-snap-align: center; text-align: center; }
+  .gallery img { width: 100%; height: auto; border-radius: 22px; border: 5px solid #1d1d28; background: #1d1d28; display: block; }
+  .gallery figcaption { font-size: 13.5px; color: var(--muted); margin-top: 10px; font-weight: 600; }
+
+  /* Pasos */
+  .steps { counter-reset: s; display: grid; gap: 12px; padding: 0; margin: 0; list-style: none; }
+  .steps li { counter-increment: s; background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 16px 18px 16px 66px; position: relative; }
+  .steps li::before { content: counter(s); position: absolute; left: 16px; top: 14px; width: 34px; height: 34px; border-radius: 11px; background: var(--soft); color: var(--accent); font-weight: 800; display: grid; place-items: center; }
+  .steps b { display: block; }
+  .steps span { color: var(--muted); font-size: 14.5px; }
+  .tip { margin-top: 14px; background: var(--soft); border-radius: 16px; padding: 14px 18px; font-size: 14.5px; }
+
+  /* Preguntas */
+  details { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin-bottom: 10px; }
+  summary { cursor: pointer; font-weight: 700; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: '+'; color: var(--accent); font-size: 22px; line-height: 1; }
+  details[open] summary::after { content: '−'; }
+  details p { margin: 0 0 14px; color: var(--muted); }
+
+  /* Final */
+  .final { background: var(--accent); color: #fff; border-radius: 28px; padding: 36px 24px; text-align: center; }
+  .final h2 { color: #fff; }
+  .final p { opacity: .9; margin: 0 0 22px; }
+  .final .btn.main { background: #fff; color: var(--accent); box-shadow: none; }
+  .final .btn.ghost { background: transparent; border-color: rgba(255,255,255,.55); color: #fff; }
+  @media (prefers-color-scheme: dark) { .final { background: #2B2B5C; } .final .btn.main { color: #2B2B5C; } }
+  .final .ctas { justify-content: center; }
+  footer { padding: 32px 0 44px; color: var(--muted); font-size: 13.5px; text-align: center; }
+  footer p { margin: 4px 0; }
+</style>
+</head>
+<body>
+
+<header class="wrap hero">
+  <div>
+    <div class="brand"><img src="img/icono.svg" alt="">Mi Uni</div>
+    <h1>Tu semana universitaria, <span>en orden.</span></h1>
+    <p class="lead">Horario, tareas, exámenes, notas y faltas en un solo lugar. Te avisa a tiempo para que no se te pase nada.</p>
+    <div class="ctas">
+      <a class="btn main" href="https://github.com/sebastianarhez-max/mi-uni-app/releases/latest">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
+        Descargar gratis
+      </a>
+      <a class="btn ghost" href="https://github.com/sebastianarhez-max/mi-uni-app">⭐ Dale una estrella</a>
+    </div>
+    <p class="note">Para Android · Sin cuentas · Sin publicidad · <a href="#instalar">¿Cómo se instala?</a></p>
+  </div>
+  <div class="phones">
+    <div class="phone"><img src="img/hoy.webp" alt="Pantalla Hoy: siguiente clase, clases del día y lo que falta entregar" width="585" height="1266"></div>
+    <div class="phone b"><img src="img/notas.webp" alt="Notas de un curso: promedio actual y cuánto necesitas para aprobar" width="585" height="1266"></div>
+  </div>
+</header>
+
+<main>
+<section class="wrap">
+  <h2>Todo lo de la uni, sin enredos</h2>
+  <p class="sub">Lo importante a la vista. Lo demás, solo si lo necesitas.</p>
+  <div class="grid">
+    <div class="feat"><div class="ic">📄</div><h3>Carga tu horario sola</h3><p>Lee el PDF o una captura del horario de tu universidad. Nada de escribir curso por curso.</p></div>
+    <div class="feat"><div class="ic">🔔</div><h3>Te avisa a tiempo</h3><p>Antes de cada clase, entrega y examen. Hasta te dice a qué hora salir de casa.</p></div>
+    <div class="feat"><div class="ic">🎯</div><h3>¿Cuánto necesito en el final?</h3><p>Tu promedio por curso y la nota que te falta para aprobar.</p></div>
+    <div class="feat"><div class="ic">✋</div><h3>Control de faltas</h3><p>Lleva la cuenta de tus inasistencias y te avisa antes de llegar al límite.</p></div>
+    <div class="feat"><div class="ic">📁</div><h3>Mis ciclos</h3><p>Guarda tus ciclos anteriores y mira tu promedio acumulado de toda la carrera.</p></div>
+    <div class="feat"><div class="ic">📱</div><h3>Widget</h3><p>Tu próxima clase y lo que vence hoy, en la pantalla de inicio del celular.</p></div>
+    <div class="feat"><div class="ic">🖼️</div><h3>Comparte tu horario</h3><p>Como imagen para tus amigos o directo a Google Calendar.</p></div>
+    <div class="feat"><div class="ic">🎨</div><h3>A tu gusto</h3><p>8 diseños, modo oscuro, foto de fondo y la app en español o inglés.</p></div>
+    <div class="feat"><div class="ic">♿</div><h3>Accesible</h3><p>Letra grande, tipos de letra para baja visión y dislexia, alto contraste y TalkBack.</p></div>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2>Así se ve</h2>
+  <p class="sub">Desliza para ver más →</p>
+  <div class="gallery">
+    <figure><img src="img/hoy.webp" alt="Pantalla Hoy" loading="lazy" width="585" height="1266"><figcaption>Tu día de un vistazo</figcaption></figure>
+    <figure><img src="img/horario.webp" alt="Horario semanal" loading="lazy" width="585" height="1266"><figcaption>Horario de la semana</figcaption></figure>
+    <figure><img src="img/pendientes.webp" alt="Lista de pendientes con diseño rosa" loading="lazy" width="585" height="1266"><figcaption>Pendientes ordenados</figcaption></figure>
+    <figure><img src="img/notas.webp" alt="Notas de un curso" loading="lazy" width="585" height="1266"><figcaption>Cuánto te falta para aprobar</figcaption></figure>
+    <figure><img src="img/cursos.webp" alt="Cursos y promedio ponderado en modo oscuro" loading="lazy" width="585" height="1266"><figcaption>Promedio ponderado</figcaption></figure>
+    <figure><img src="img/ciclos.webp" alt="Mis ciclos con promedio acumulado" loading="lazy" width="585" height="1266"><figcaption>Promedio de la carrera</figcaption></figure>
+  </div>
+</section>
+
+<section class="wrap" id="instalar">
+  <h2>Cómo instalarla</h2>
+  <p class="sub">Toma menos de un minuto. Hazlo desde tu celular Android.</p>
+  <ol class="steps">
+    <li><b>Toca "Descargar gratis"</b><span>Se abre la página de GitHub con la última versión.</span></li>
+    <li><b>Toca el archivo <code>MiUni-…apk</code></b><span>Está en la sección "Assets". Si el navegador pregunta, elige "Descargar de todas formas".</span></li>
+    <li><b>Abre el archivo descargado</b><span>Desde la notificación de descarga o desde la carpeta Descargas.</span></li>
+    <li><b>Permite la instalación</b><span>Android te pedirá permitir apps de esta fuente: entra a Configuración, activa el permiso y vuelve.</span></li>
+    <li><b>Toca "Instalar" y listo</b><span>Abre Mi Uni, elige tu universidad y carga tu horario.</span></li>
+  </ol>
+  <p class="tip">💡 Android muestra esa advertencia con cualquier app que no viene de Play Store. Es normal. Mi Uni no pide permisos raros ni se conecta a ningún servidor.</p>
+</section>
+
+<section class="wrap">
+  <h2>Preguntas frecuentes</h2>
+  <p class="sub">&nbsp;</p>
+  <details><summary>¿Cuesta algo?</summary><p>No. Es gratis, sin publicidad y sin compras dentro de la app.</p></details>
+  <details><summary>¿Es segura? ¿Qué pasa con mis datos?</summary><p>No necesitas cuenta ni contraseña. Todo se guarda solo en tu celular y nadie más lo ve. Puedes hacer un respaldo cuando quieras desde Ajustes.</p></details>
+  <details><summary>¿Funciona en iPhone?</summary><p>Por ahora solo en Android.</p></details>
+  <details><summary>¿Sirve para mi universidad?</summary><p>Tiene 476 universidades de 16 países de Latinoamérica y España, cada una con su escala de notas (Perú 0–20, Chile 1–7, Colombia 0–5, México 0–10…). Si la tuya no está, puedes usarla igual.</p></details>
+  <details><summary>¿Cómo la actualizo?</summary><p>Descarga la nueva versión desde esta misma página e instálala encima. Tus datos se mantienen.</p></details>
+  <details><summary>¿Va a estar en Play Store?</summary><p>¡Ojalá! Si a la gente le gusta, la subo. Puedes ayudar dándole una estrella en GitHub y compartiéndola.</p></details>
+</section>
+
+<section class="wrap">
+  <div class="final">
+    <h2>¿Te gustó?</h2>
+    <p>Descárgala, compártela con tus compañeros y dale una estrella ⭐ para que llegue a Play Store.</p>
+    <div class="ctas">
+      <a class="btn main" href="https://github.com/sebastianarhez-max/mi-uni-app/releases/latest">Descargar gratis</a>
+      <a class="btn ghost" href="https://github.com/sebastianarhez-max/mi-uni-app">⭐ Dar estrella en GitHub</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="wrap">
+  <p>Hecho por <b>Cristhian Sebastian Arias Hernandez</b>, estudiante de Ingeniería de Sistemas de Información.</p>
+  <p>Mi Uni es un proyecto independiente y no está afiliado a ninguna universidad.</p>
+  <p>© 2026 Cristhian Sebastian Arias Hernandez. Todos los derechos reservados.</p>
+</footer>
+
+</body>
+</html>

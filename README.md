@@ -8,7 +8,23 @@ App gratis para Android que junta en un solo lugar tu horario, tus tareas, tus e
 
 **[Descargar la última versión (APK)](https://github.com/sebastianarhez-max/mi-uni-app/releases/latest)**
 
-Abre el archivo `.apk` en tu celular Android e instálalo. Si te lo pide, permite "instalar apps de origen desconocido" para tu navegador o administrador de archivos.
+🌐 Página de la app: **[sebastianarhez-max.github.io/mi-uni-app](https://sebastianarhez-max.github.io/mi-uni-app/)**
+
+### Cómo instalarla (desde tu celular Android)
+
+1. Toca **"Descargar la última versión"** (arriba).
+2. En **Assets**, toca el archivo **`MiUni-…apk`**. Si el navegador pregunta, elige **"Descargar de todas formas"**.
+3. Abre el archivo desde la notificación de descarga o desde la carpeta **Descargas**.
+4. Android te pedirá **permitir apps de esta fuente**: entra a Configuración, activa el permiso y vuelve.
+5. Toca **"Instalar"**. ¡Listo! Abre Mi Uni, elige tu universidad y carga tu horario.
+
+> 💡 Android muestra esa advertencia con cualquier app que no viene de Play Store. Es normal: Mi Uni no pide permisos raros ni se conecta a ningún servidor.
+>
+> Para actualizar, descarga la nueva versión e instálala encima. Tus datos se mantienen.
+
+### ⭐ ¿Te gustó?
+
+Dale una **estrella** a este repositorio (botón ⭐ *Star*, arriba a la derecha). Si llega a suficiente gente, Mi Uni llegará a Play Store.
 
 ## ✨ Qué hace
 
